@@ -1,16 +1,18 @@
 import { Router } from 'express';
-// import multer from 'multer';
-// import multerConfig from './config/multer';
 
 import CultivationController from './app/controllers/Cultivation';
+import DefensiveTypeController from './app/controllers/DefensiveType';
 
 import authMiddleware from './app/middlewares/auth';
 
 const routes = new Router();
-// const upload = multer(multerConfig);
 
 routes.use(authMiddleware);
 
-routes.put('/cultivations', CultivationController.index);
+routes.post('/cultivations', CultivationController.store);
+routes.get('/cultivations', CultivationController.index);
+
+routes.post('/defensivestypes', DefensiveTypeController.store);
+routes.get('/defensivestypes', DefensiveTypeController.index);
 
 export default routes;
