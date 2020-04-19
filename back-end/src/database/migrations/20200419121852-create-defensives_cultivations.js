@@ -1,6 +1,6 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('defensive_cultures', {
+    return queryInterface.createTable('defensive_cultivations', {
       defensive_id: {
         primaryKey: true,
         allowNull: false,
@@ -31,6 +31,6 @@ module.exports = {
   },
 
   down: queryInterface => {
-    return queryInterface.dropTable('defensive_cultures');
+    return queryInterface.dropTable('defensive_cultivations');
   },
 };
