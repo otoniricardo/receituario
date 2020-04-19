@@ -2,6 +2,7 @@ import { Router } from 'express';
 
 import CultivationController from './app/controllers/Cultivation';
 import DefensiveTypeController from './app/controllers/DefensiveType';
+import DefensiveController from './app/controllers/Defensive';
 
 import authMiddleware from './app/middlewares/auth';
 
@@ -12,7 +13,10 @@ routes.use(authMiddleware);
 routes.post('/cultivations', CultivationController.store);
 routes.get('/cultivations', CultivationController.index);
 
-routes.post('/defensivestypes', DefensiveTypeController.store);
-routes.get('/defensivestypes', DefensiveTypeController.index);
+routes.post('/defensivetypes', DefensiveTypeController.store);
+routes.get('/defensivetypes', DefensiveTypeController.index);
+
+routes.post('/defensives', DefensiveController.store);
+routes.get('/defensives', DefensiveController.index);
 
 export default routes;
