@@ -9,8 +9,6 @@ export default function () {
   return (
     <Switch>
       <Route path="/prescription" exact component={Presciption} />
-
-      {/* <Route path="/" component={() => <h1>404</h1>} /> */}
     </Switch>
   );
 }
