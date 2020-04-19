@@ -5,6 +5,7 @@ import DefensiveTypeController from './app/controllers/DefensiveType';
 import DefensiveController from './app/controllers/Defensive';
 import DefensiveCultivationController from './app/controllers/DefensiveCultivation';
 import PackingController from './app/controllers/Packing';
+import DefensivePackingController from './app/controllers/DefensivePacking';
 
 import authMiddleware from './app/middlewares/auth';
 
@@ -26,5 +27,8 @@ routes.get('/defensivecultivation', DefensiveCultivationController.index);
 
 routes.post('/packing', PackingController.store);
 routes.get('/packing', PackingController.index);
+
+routes.post('/defensivepacking', DefensivePackingController.store);
+routes.get('/defensivepacking', DefensivePackingController.index);
 
 export default routes;
