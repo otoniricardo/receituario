@@ -16,11 +16,19 @@ module.exports = {
         allowNull: false,
         unique: true,
       },
-      doc: {
+      cpf: {
         type: Sequelize.STRING,
         allowNull: false,
       },
       phone: {
+        type: Sequelize.STRING,
+        defaultValue: false,
+      },
+      title: {
+        type: Sequelize.STRING,
+        defaultValue: false,
+      },
+      crea: {
         type: Sequelize.STRING,
         defaultValue: false,
       },

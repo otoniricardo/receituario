@@ -1,14 +1,16 @@
 import Sequelize, { Model } from 'sequelize';
 // import bcrypt from 'bcryptjs';
 
-class User extends Model {
+class Techinical extends Model {
   static init(sequelize) {
     super.init(
       {
         name: Sequelize.STRING,
         email: Sequelize.STRING,
-        doc: Sequelize.STRING,
+        cpf: Sequelize.STRING,
         phone: Sequelize.STRING,
+        title: Sequelize.STRING,
+        crea: Sequelize.STRING,
       },
       {
         sequelize,
@@ -16,4 +18,4 @@ class User extends Model {
     );
   }
 }
-export default User;
+export default Techinical;

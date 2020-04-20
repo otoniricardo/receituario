@@ -2,10 +2,10 @@ import Defensive from '../models/Defensive';
 
 class DefensiveController {
   async store(req, res) {
-    const userExists = await Defensive.findOne({
+    const defensiveExists = await Defensive.findOne({
       where: { name: req.body.name },
     });
-    if (userExists)
+    if (defensiveExists)
       return res
         .status(400)
         .json({ error: 'Já existe um defensivo com esse nome cadastrado.' });
