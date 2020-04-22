@@ -19,6 +19,7 @@ module.exports = {
       cpf: {
         type: Sequelize.STRING,
         allowNull: false,
+        unique: true,
       },
       phone: {
         type: Sequelize.STRING,
@@ -31,6 +32,7 @@ module.exports = {
       crea: {
         type: Sequelize.STRING,
         defaultValue: false,
+        unique: true,
       },
       created_at: {
         type: Sequelize.DATE,
