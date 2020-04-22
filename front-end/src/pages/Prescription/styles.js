@@ -3,7 +3,7 @@ import styled from 'styled-components';
 // import { lighten } from 'polished';
 
 export const Container = styled.div`
-  display: flex;
+  display: block;
   max-width: 1200px;
   width: 100%;
   padding: 0 30px;
@@ -23,6 +23,8 @@ export const CustomerData = styled.div``;
 export const CreateNewUser = styled.div``;
 
 export const CustomerContainer = styled.div``;
+
+export const CultivationContainer = styled.div``;
 
 // export const Scroll = styled(PerfectScrollBar)`
 //   max-height: 260px;

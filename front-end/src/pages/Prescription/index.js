@@ -1,5 +1,7 @@
 /* eslint-disable no-nested-ternary */
 import React, { useState, useEffect } from 'react';
+import { Form, Input } from '@rocketseat/unform';
+import * as Yup from 'yup';
 
 import {
   Container,
@@ -8,18 +10,33 @@ import {
   CustomerContainer,
   CustomerData,
   CreateNewUser,
+  CultivationContainer,
 } from './styles';
+
+const schema = Yup.object().shape({
+  doc: Yup.string()
+    .required('O CPF/CNPJ é Obrigatório')
+    .min(9, 'Documento deve possuir no minimo 9 digitos'),
+  name: Yup.string().required('O Nome é obrigatório'),
+
+  street: Yup.string().required('O Logradouro é obrigatório'),
+  number: Yup.string().required('O número é obrigatório'),
+  cep: Yup.string()
+    .required('O cep é obrigatório')
+    .min(8, 'Documento deve possuir no minimo 8 digitos'),
+  uf: Yup.string()
+    .required('O Estado é obrigatório')
+    .length(2, 'O estado deve possuir exatamente 2 caracteres'),
+  city: Yup.string().required('A cidade é obrigatória'),
+});
 
 export default function Presciption() {
   const [customers, setCustomers] = useState([]);
   const [filteredCustomers, setfilteredCustomers] = useState([]);
-  const [selectedCustomer, setselectedCustomer] = useState();
+  const [selectedCustomer, setSelectedCustomer] = useState();
   const [showCreateNewUser, setshowCreateNewUser] = useState(false);
-  const [newCustomer, setNewCustomer] = useState({
-    name: '',
-    doc: '',
-    address: { street: '', number: '', cep: '', city: '', state: '' },
-  });
+  const [cultivations, setCultivations] = useState([]);
+  const [selectedCultivation, setSelectedCultivation] = useState('');
   useEffect(() => {
     setCustomers([
       {
@@ -41,10 +58,11 @@ export default function Presciption() {
         address: { street: '', number: '', cep: '', city: '', state: '' },
       },
     ]);
+    setCultivations(['Tomate', 'Laranja', 'Abacaxi']);
   }, []);
 
   function handleSelectCustomer(customer) {
-    setselectedCustomer(customer);
+    setSelectedCustomer(customer);
   }
   function handleInputChange(e) {
     if (e.target.value === '') return setfilteredCustomers([]);
@@ -55,12 +73,28 @@ export default function Presciption() {
       )
     );
   }
-  function handleCreateNewCustomer(e) {
-    e.preventDefault();
-    setselectedCustomer(newCustomer);
+  function handleCreateNewCustomer({
+    name,
+    doc,
+    street,
+    number,
+    cep,
+    city,
+    uf,
+  }) {
+    const newCustomer = {
+      name,
+      doc,
+      address: { street, cep, number, uf, city },
+    };
+    setSelectedCustomer(newCustomer);
     setshowCreateNewUser(false);
     const id = customers[customers.length - 1].id + 1;
     setCustomers([...customers, { id, ...newCustomer }]);
+  }
+  function handleSelectCultivation(e) {
+    // console.log(e.target.value);
+    setSelectedCultivation(e.target.value);
   }
 
   return (
@@ -70,14 +104,18 @@ export default function Presciption() {
           <CustomerData>
             <strong>Nome: </strong> {selectedCustomer.name} <br />
             <strong>CPF/CNPJ: </strong> {selectedCustomer.doc} <br />
-            <strong>Endereço: </strong> AV. DOS ARECIFES 134 <br />
+            <strong>Endereço: </strong>{' '}
+            {`${selectedCustomer.address.street}, ${selectedCustomer.address.number}`}
+            <br />
             <strong>Local de Aplicação: </strong> ZONA RURAL <br />
-            <strong>CEP: </strong> 59570-000 <br />
-            <strong>Município/UF: </strong> Ceara Mirim / RN <br />
+            <strong>CEP: </strong> {selectedCustomer.address.cep} <br />
+            <strong>Município/UF: </strong>{' '}
+            {`${selectedCustomer.address.city} / ${selectedCustomer.address.uf}`}{' '}
+            <br />
             <button
               type="button"
               onClick={() => {
-                setselectedCustomer();
+                setSelectedCustomer();
                 setfilteredCustomers([]);
               }}
             >
@@ -118,69 +156,34 @@ export default function Presciption() {
           </CustomerSelector>
         ) : (
           <CreateNewUser>
-            <form onSubmit={handleCreateNewCustomer}>
-              <input
-                placeholder="Nome"
-                value={newCustomer.name}
-                onChange={e =>
-                  setNewCustomer({ ...newCustomer, name: e.target.value })
-                }
-              />
-              <input
-                placeholder="CPF/CNPJ"
-                value={newCustomer.doc}
-                onChange={e =>
-                  setNewCustomer({ ...newCustomer, doc: e.target.value })
-                }
-              />
-              <input
-                placeholder="Logradouro"
-                value={newCustomer.address.street}
-                onChange={e =>
-                  setNewCustomer({
-                    ...newCustomer,
-                    address: { ...newCustomer.address, street: e.target.value },
-                  })
-                }
-              />
-              <input
-                placeholder="CEP"
-                value={newCustomer.address.cep}
-                onChange={e =>
-                  setNewCustomer({
-                    ...newCustomer,
-                    address: { ...newCustomer.address, cep: e.target.value },
-                  })
-                }
-              />
-              <input
-                placeholder="Municipio"
-                value={newCustomer.address.city}
-                onChange={e =>
-                  setNewCustomer({
-                    ...newCustomer,
-                    address: { ...newCustomer.address, city: e.target.value },
-                  })
-                }
-              />
-              <input
-                placeholder="Estado"
-                value={newCustomer.address.state}
-                onChange={e =>
-                  setNewCustomer({
-                    ...newCustomer,
-                    address: { ...newCustomer.address, state: e.target.value },
-                  })
-                }
-              />
-
+            <Form onSubmit={handleCreateNewCustomer} schema={schema}>
+              <Input placeholder="Nome" name="name" />
+              <Input placeholder="CPF/CNPJ" name="doc" />
+              <Input placeholder="Logradouro" name="street" />
+              <Input placeholder="Número" name="number" />
+              <Input placeholder="CEP" name="cep" />
+              <Input placeholder="Municipio" name="city" />
+              <Input placeholder="Estado" name="uf" />
               <button className="button" type="submit">
                 Cadastrar
               </button>
-            </form>
+            </Form>
           </CreateNewUser>
         )}
       </CustomerContainer>
+      <CultivationContainer>
+        <strong>Selecione a cultura: </strong>
+        <select
+          onChange={handleSelectCultivation}
+          value={selectedCultivation || ''}
+        >
+          {cultivations.map(cultivation => (
+            <option key={cultivation} value={cultivation}>
+              {cultivation}
+            </option>
+          ))}
+        </select>
+      </CultivationContainer>
     </Container>
   );
 }
